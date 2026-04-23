@@ -2,10 +2,19 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import * as Application from 'expo-application';
+import { useEffect, useState } from 'react';
 
 const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
+  const [appName, setAppName] = useState<string>('RecipeApp');
+
+  useEffect(() => {
+    const name = Application.applicationName;
+    if (name) setAppName(name);
+  }, []);
+
   return (
     <LinearGradient
       colors={['#667eea', '#764ba2', '#f093fb']}
@@ -16,7 +25,7 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInUp.delay(200).springify()} style={styles.header}>
         <Text style={styles.emoji}>🍳</Text>
         <Text style={styles.title}>Bienvenue sur</Text>
-        <Text style={styles.subtitle}>RecipeApp</Text>
+        <Text style={styles.subtitle}>{appName}</Text>
         <Text style={styles.tagline}>Découvrez des recettes délicieuses du monde entier</Text>
       </Animated.View>
 
