@@ -40,15 +40,42 @@ export default function HomeScreen() {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         windowSize={5}
+        style={{ flex: 1 }}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#f5f5f5' },
-  searchInput: { height: 48, borderWidth: 1, borderColor: '#ddd', borderRadius: 8, paddingHorizontal: 12, marginBottom: 12, backgroundColor: '#fff' },
-  card: { backgroundColor: '#fff', padding: 16, marginVertical: 6, borderRadius: 8, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
-  recipeTitle: { fontSize: 16, fontWeight: '500' },
-  footer: { marginVertical: 16 },
+  container: { 
+    flex: 1, 
+    padding: 16, 
+    backgroundColor: '#f5f5f5' 
+  },
+  searchInput: { 
+    height: 48, 
+    borderWidth: 1, 
+    borderColor: '#ddd', 
+    borderRadius: 8, 
+    paddingHorizontal: 12, 
+    marginBottom: 12, 
+    backgroundColor: '#fff' 
+  },
+  card: { 
+    backgroundColor: '#fff', 
+    padding: 16, 
+    marginVertical: 6, 
+    borderRadius: 8, 
+    shadowColor: '#000', 
+    shadowOpacity: 0.05, 
+    shadowRadius: 4, 
+    elevation: 2 
+  },
+  recipeTitle: { 
+    fontSize: 16, 
+    fontWeight: '500' 
+  },
+  footer: { 
+    marginVertical: 16 
+  },
 });
