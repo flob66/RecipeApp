@@ -1,6 +1,7 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { useRecipes } from '../../src/hooks/useRecipes';
+import { useUserRecipes } from '../../src/context/UserRecipesContext';
 import { router } from 'expo-router';
 import { RecipeSummary } from '../../src/types/recipe';
 import Animated, { FadeInRight, Layout } from 'react-native-reanimated';
@@ -10,7 +11,19 @@ const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function RecipesListScreen() {
   const { recipes, loading, hasMore, loadMore, searchQuery, searchRecipes } = useRecipes('Dessert');
+  const { userRecipes } = useUserRecipes();
   const flatListRef = useRef<FlatList>(null);
+  const [localSearch, setLocalSearch] = useState(searchQuery);
+
+  const allRecipes = [...userRecipes, ...recipes];
+
+  const filteredRecipes = allRecipes.filter(recipe =>
+    recipe.strMeal.toLowerCase().includes(localSearch.toLowerCase())
+  );
+
+  useEffect(() => {
+    searchRecipes(localSearch);
+  }, [localSearch]);
 
   const renderItem = useCallback(({ item, index }: { item: RecipeSummary; index: number }) => (
     <AnimatedTouchable
@@ -44,13 +57,16 @@ export default function RecipesListScreen() {
           style={styles.searchInput}
           placeholder="Rechercher une recette..."
           placeholderTextColor="#999"
-          value={searchQuery}
-          onChangeText={searchRecipes}
+          value={localSearch}
+          onChangeText={setLocalSearch}
         />
       </View>
+      <TouchableOpacity style={styles.addButton} onPress={() => router.push('/recipes/add')}>
+        <Text style={styles.addButtonText}>+ Ajouter une recette</Text>
+      </TouchableOpacity>
       <FlatList
         ref={flatListRef}
-        data={recipes}
+        data={filteredRecipes}
         keyExtractor={(item) => item.idMeal}
         renderItem={renderItem}
         onEndReached={handleEndReached}
@@ -93,6 +109,19 @@ const styles = StyleSheet.create({
     fontSize: 16, 
     color: '#333' 
   },
+  addButton: {
+    backgroundColor: '#667eea',
+    marginHorizontal: 16,
+    marginBottom: 8,
+    paddingVertical: 12,
+    borderRadius: 50,
+    alignItems: 'center',
+  },
+  addButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   listContent: { 
     paddingBottom: 20 
   },
@@ -126,5 +155,7 @@ const styles = StyleSheet.create({
     color: '#764ba2', 
     marginTop: 4 
   },
-  footer: { marginVertical: 20 },
+  footer: { 
+    marginVertical: 20 
+  },
 });

@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 20,
     marginTop: 20,
+    width: '100%',
   },
   cardWrapper: {
     width: width * 0.4,
