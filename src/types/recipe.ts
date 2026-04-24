@@ -6,13 +6,15 @@ export interface Recipe {
   strArea?: string;
   strInstructions?: string;
   strYoutube?: string;
-  [key: string]: string | undefined;
+  isUserCreated?: boolean;
+  localImageUri?: string;
 }
 
 export interface RecipeSummary {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
+  isUserCreated?: boolean;
 }
 
 export interface SearchResponse {
